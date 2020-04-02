@@ -1,0 +1,143 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+<script>
+$(document).ready(function(){
+  $("#f1").change(function(){
+      alert("Oh");
+      
+    var files = $('#f1').prop('files');
+    console.log(files);
+      return;
+ 
+ var data = new FormData();
+ data.append('my_f', files[0]);
+ 
+    $.ajax({
+    url: '/index/cal/',
+    type: 'POST',
+    data: data,
+    cache: false,
+    processData: false,
+    contentType: false,
+    success: function (data) {
+        alert(data);
+    }
+ });
+  });
+});
+$(document).ready(function(){
+  $("#btn2").click(function(){
+      $.post(
+          "index/show/",
+          {},
+          function (data) {
+                alert(data);
+            var imgTag = document.createElement('img');   //创建img标签
+                imgTag.src = data;           //路径
+                $('#div0').append(imgTag);
+          }
+      )
+  });
+});
+$(function () {
+      $("#btn3").click(function () {
+        $("#btn3").hide();
+      });
+  });
+$(function () {
+      $("#btn4").click(function () {
+        $.post(
+            "index/draw/",
+            {'num':$("#my_in").val(),},
+            function (data) {
+                console.log("Oh")
+                var imgTag = document.createElement('img');   //创建img标签
+                imgTag.src = data;           //路径
+                $('#div0').append(imgTag);
+            }
+        )
+      });
+  });
+$(function () {
+    $("#btn5").click(function () {
+        $.get(
+            "index/see/",
+            function (data) {
+                var ifa = document.createElement('iframe');
+                ifa.src = data;
+                $('#div0').append(ifa);
+            }
+        )
+    });
+});
+</script>
+</head>
+
+<body>
+
+<input id = "my_in">
+<button id='btn4' name="jsjs">upload left number</button>
+<br>
+<input type="file" id='f1'>
+<button id='btn1' name="my_f">on</button>
+<div id = "div0"></div>
+<button id='btn2' name="my_f">haha</button>
+<br>
+<button id='btn3' name="jsjs">click to hide me</button>
+<br>
+<button id='btn5' >netron test</button>
+<div id = 'chart0' style="width: 600px;height: 400px;">
+</div>
+<script>
+    var c = echarts.init(document.getElementById('chart0'), 'light');
+    var option = {
+            title: {
+                text: '第一个 ECharts 实例'
+            },
+            legend: {
+                orient: 'vertical',
+                data:['销量'],
+                icon: 'circle',
+                textStyle: {
+                    color: 'red'
+                }
+            },
+            series: [{
+                name: '销量',
+                type: 'pie',
+                radius: '55%',  // 饼图的半径，外半径为可视区尺寸（容器高宽中较小一项）的 55% 长度。
+                data:[          // 数据数组，name 为数据项名称，value 为数据项值
+                {value:235, name:'视频广告'},
+                {value:274, name:'联盟广告'},
+                {value:310, name:'邮件营销'},
+                {value:335, name:'直接访问'},
+                {value:400, name:'搜索引擎'}]
+            }],
+            itemStyle: {
+                normal: {
+                    shadowBlur: 200,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+            },
+            emphasis:  {
+            itemStyle: {
+        // 高亮时点的颜色
+        color: 'red'
+    },
+    label: {
+        show: true,
+        // 高亮时标签的文字
+        formatter: '高亮时显示的标签内容'
+    }
+        }};
+ 
+        // 使用刚指定的配置项和数据显示图表。
+        c.setOption(option);
+</script>
+</body>
+</html>

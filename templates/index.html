@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+		<link rel="shortcut icon" href="/static/img/favicon.ico" />
+		<title>Auto Bit</title>
+		
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+		
+		<!-- Common CSS -->
+		<link rel="stylesheet" href="/static/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="/static/fonts/icomoon/icomoon.css" />
+		<link rel="stylesheet" href="/static/css/main.css" />
+
+		<!-- Other CSS includes plugins - Cleanedup unnecessary CSS -->
+		<!-- Chartist css -->
+		<link href="/static/vendor/chartist/css/chartist.min.css" rel="stylesheet" />
+		<link href="/static/vendor/chartist/css/chartist-custom.css" rel="stylesheet" />
+		<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+		</script>
+		<script> var uploaded = 0; </script>
+		<!--上传文件事件-->
+		<script>
+			$(function () {
+				$("#my_model").change(function () {
+					var files = $('#my_model').prop('files');
+ 					var data = new FormData();
+					data.append('my_model', files[0]);
+					$.ajax({
+						url: '/guide/upload/',
+						type: 'POST',
+						data: data,
+						cache: false,
+						processData: false,
+						contentType: false,
+						success: function (data) {
+							uploaded = 1;
+							alert("DEBUG:  " + data);
+
+						},
+						error: function (data) {
+							alert(data);
+							uploaded = 0;
+						}
+					});
+				})
+			});
+		</script>
+		<!--结构可视化事件-->
+		<script>
+			$(function() {
+				$("#lanuch_netron").click(function() {
+					//if (uploaded == 0) {
+						//alert("DEBUG:  No file found");
+						//return;
+					//}
+					//else {
+						$.get(
+							"/guide/structure_view/",
+							function (data) {
+								console.log($('#netron_board').is(":empty"));
+								if ($('#netron_board').is(":empty")) {
+									var ifa = document.createElement('iframe');
+									ifa.src = data;
+									$('#netron_board').append(ifa);
+									$('#netron_board').parent().css("display", "block");
+									ifa.style = "width:  100%;height: 100%;";
+									ifa.setAttribute('frameborder', '0', 0);
+								}
+								window.location.replace("#netron_nav");
+						}
+						);
+					//}
+				});
+			});
+		</script>
+	</head>
+	<body>
+
+		<!-- Loading starts -->
+		<div id="loading-wrapper">
+			<div id="loader">
+				<div class="line1"></div>
+				<div class="line2"></div>
+				<div class="line3"></div>
+				<div class="line4"></div>
+				<div class="line5"></div>
+				<div class="line6"></div>
+			</div>
+		</div>
+		<!-- Loading ends -->
+
+		<!-- BEGIN .app-wrap -->
+		<div class="app-wrap">
+			<!-- BEGIN .app-heading -->
+			<header class="app-header">
+				<div class="container-fluid">
+					<div class="row gutters">
+						<div class="col-xl-5 col-lg-5 col-md-5 col-sm-3 col-4">
+							<a class="mini-nav-btn" href="#" id="app-side-mini-toggler">
+								<i class="icon-menu5"></i>
+							</a>
+							<a href="#app-side" data-toggle="onoffcanvas" class="onoffcanvas-toggler" aria-expanded="true">
+								<i class="icon-chevron-thin-left"></i>
+							</a>
+						</div>
+						<div class="col-xl-2 col-lg-2 col-md-2 col-sm-6 col-4">
+							<a href="/guide/" class="logo">
+								<img src="/static/img/logo.png" alt="Unify Admin www.dmaku.com" />
+							</a>
+						</div>
+						<div class="col-xl-5 col-lg-5 col-md-5 col-sm-3 col-4">
+						</div>
+					</div>
+				</div>
+			</header>
+			<!-- END: .app-heading -->
+			<!-- BEGIN .app-container -->
+			<div class="app-container">
+				<!-- BEGIN .app-side -->
+				<aside class="app-side" id="app-side">
+					<!-- BEGIN .side-content -->
+					<div class="side-content ">
+						<!-- BEGIN .side-nav -->
+						<nav class="side-nav">
+							<!-- BEGIN: side-nav-content -->
+							<ul class="unifyMenu" id="unifyMenu"  style="font: bold;font-size: 3vh">
+								<li class="active selected">
+									<a href="#">
+										<span class="has-icon">
+											<i class="icon-upload2"></i>
+										</span>
+										<span class="nav-title">上传模型</span>
+									</a>
+								</li>
+								<li>
+								</li>
+								<li>
+									<a href="/deploy/">
+										<span class="has-icon">
+											<i class="icon-laptop_windows"></i>
+										</span>
+										<span class="nav-title">硬件部署</span>
+									</a>
+									
+								</li>
+								<li>
+									<a href="/analyse/">
+										<span class="has-icon">
+											<i class="icon-chart-area-outline"></i>
+										</span>
+										<span class="nav-title">模型分析</span>
+									</a>
+								</li>
+								<li>
+									<a href="https://gitee.com/BitTeam1024">
+										<span class="has-icon">
+											<i class="icon-tree"></i>
+										</span>
+										<span class="nav-title">Fork me</span>
+									</a>
+								</li>
+										
+							</ul>
+							<!-- END: side-nav-content -->
+						</nav>
+						<!-- END: .side-nav -->
+					</div>
+					<!-- END: .side-content -->
+				</aside>
+				<!-- END: .app-side -->
+
+				<!-- BEGIN .app-main -->
+				<div class="app-main">
+					<!-- BEGIN .main-heading -->
+					<header class="main-heading">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+									<div class="page-icon">
+										<i class="icon-upload2"></i>
+									</div>
+									<div class="page-title">
+										<h5>请上传您需要转换的模型</h5>
+										<h6 class="sub-heading">支持ONNX等通用格式</h6>
+									</div>
+								</div>
+								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4">
+									<div class="right-actions">
+										<a href="#" class="btn btn-primary float-right" data-toggle="tooltip" data-placement="left" title="Download Reports">
+											<i class="icon-download4"></i>
+										</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</header>
+					<!-- END: .main-heading -->
+					<!-- BEGIN .main-content -->
+					<div class="main-content" style="display:flex;flex-direction: column;align-items: center;justify-content: flex-start;font-family:  Lato, sans-serif">
+								<p style="font-family:  Lato, sans-serif;font-size: 16vh;font: bold;margin-top: 10%">AutoBIT</p>
+								<p style="opacity: 0.5;font-size: 4vh;color: #777;margin-left: 20%">—— 更懂你的神经网络低比特量化编译部署系统</p>
+						<p style="opacity: 0.8;font-size: 3.5vh;color: #777;">|请上传您的模型</p>
+								<div class="card" style="margin-bottom: 15%">
+												<label class="custom-file">
+													<input type="file" id="my_model" class="custom-file-input">
+													<span class="custom-file-control"></span>
+												</label>
+										</div>
+						<header class="main-heading" style="width: 100%">
+						<div class="container-fluid">
+							<div class="row">
+								<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
+									<div class="page-icon">
+										<i class="icon-eye3"></i>
+									</div>
+									<div class="page-title">
+										<h5>结构可视化</h5>
+										<h6 class="sub-heading">审查上传模型的结构</h6>
+									</div>
+								</div>
+								<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4" id = "netron_nav">
+									<div class="right-actions" id = "lanuch_netron">
+										<a href="#netron_nav" class="btn btn-primary">开始</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						</header>
+						<div class="card" style="width:  100%;height: 90vh;display: none;">
+									<div class="card-body", style="height: 100%" id = 'netron_board'></div>
+						</div>
+					</div>
+					<!-- END: .main-content -->
+				</div>
+				<!-- END: .app-main -->
+			</div>
+			<!-- END: .app-container -->
+		</div>
+		<!-- END: .app-wrap -->
+
+		<!-- jQuery first, then Tether, then other JS. -->
+		<script src="/static/js/tether.min.js"></script>
+		<script src="/static/js/bootstrap.min.js"></script>
+		<script src="/static/vendor/unifyMenu/unifyMenu.js"></script>
+		<script src="/static/vendor/onoffcanvas/onoffcanvas.js"></script>
+		<script src="/static/js/moment.js"></script>
+
+		<!-- Slimscroll JS -->
+		<script src="/static/vendor/slimscroll/slimscroll.min.js"></script>
+		<script src="/static/vendor/slimscroll/custom-scrollbar.js"></script>
+
+		<!-- Chartist JS -->
+		<script src="/static/vendor/chartist/js/chartist.min.js"></script>
+		<script src="/static/vendor/chartist/js/chartist-tooltip.js"></script>
+		<script src="/static/vendor/chartist/js/custom/custom-line-chart.js"></script>
+		<script src="/static/vendor/chartist/js/custom/custom-line-chart1.js"></script>
+		<script src="/static/vendor/chartist/js/custom/custom-area-chart.js"></script>
+		<script src="/static/vendor/chartist/js/custom/donut-chart2.js"></script>
+		<script src="/static/vendor/chartist/js/custom/custom-line-chart4.js"></script>
+		
+		
+		<!-- Common JS -->
+		<script src="/static/js/common.js"></script>
+	</body>
+</html>
