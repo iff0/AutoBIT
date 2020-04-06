@@ -1,12 +1,5 @@
 @import url(https://fonts.googleapis.com/css?family=Lato);
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  font-family: Lato, sans-serif;
-  background: #eceffc;
-}
+
 
 .upload {
   --btn-color: #3bafda;

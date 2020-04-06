@@ -16,13 +16,35 @@
 		<link rel="stylesheet" href="/static/fonts/icomoon/icomoon.css" />
 		<link rel="stylesheet" href="/static/css/main.css" />
 
+		<link href="/static/css/toastr.min.css" rel="stylesheet" />
+
 		<!-- Other CSS includes plugins - Cleanedup unnecessary CSS -->
 		<!-- Chartist css -->
 		<link href="/static/vendor/chartist/css/chartist.min.css" rel="stylesheet" />
 		<link href="/static/vendor/chartist/css/chartist-custom.css" rel="stylesheet" />
-		<script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js">
+		<script src="/static/js/jquery-3.4.1.min.js"></script>
+		 <script src="/static/js/echarts.min.js"></script>
+		 <script src="/static/js/toastr.min.js"></script>
+		<script> 
+		$(function() {
+			var uploaded = 0;
+			toastr.options = {  
+					closeButton: true,  
+					debug: true,  
+					progressBar: true,  
+					positionClass: "toast-bottom-center",  
+					onclick: null,  
+					showDuration: "3000",  
+					hideDuration: "1000",  
+					timeOut: "2000",  
+					extendedTimeOut: "1000",  
+					showEasing: "swing",  
+					hideEasing: "linear",  
+					showMethod: "fadeIn",  
+					hideMethod: "fadeOut"  
+    		};
+		});
 		</script>
-		<script> var uploaded = 0; </script>
 		<!--上传文件事件-->
 		<script>
 			$(function () {
@@ -39,11 +61,9 @@
 						contentType: false,
 						success: function (data) {
 							uploaded = 1;
-							alert("DEBUG:  " + data);
-
+							toastr.success(data);
 						},
 						error: function (data) {
-							alert(data);
 							uploaded = 0;
 						}
 					});
@@ -81,18 +101,6 @@
 	</head>
 	<body>
 
-		<!-- Loading starts -->
-		<div id="loading-wrapper">
-			<div id="loader">
-				<div class="line1"></div>
-				<div class="line2"></div>
-				<div class="line3"></div>
-				<div class="line4"></div>
-				<div class="line5"></div>
-				<div class="line6"></div>
-			</div>
-		</div>
-		<!-- Loading ends -->
 
 		<!-- BEGIN .app-wrap -->
 		<div class="app-wrap">
@@ -120,9 +128,9 @@
 			</header>
 			<!-- END: .app-heading -->
 			<!-- BEGIN .app-container -->
-			<div class="app-container">
+			<div class="app-container" >
 				<!-- BEGIN .app-side -->
-				<aside class="app-side" id="app-side">
+				<aside class="app-side" id="app-side" style="position: fixed;margin-top: 61px;">
 					<!-- BEGIN .side-content -->
 					<div class="side-content ">
 						<!-- BEGIN .side-nav -->

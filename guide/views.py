@@ -41,7 +41,7 @@ def upload_model(request):
         with open(path, "wb") as tf:
             for chunk in f.chunks():
                 tf.write(chunk)
-        return HttpResponse("Your File  " + str(f.name) + "  uploaded", content_type="text/plain")
+        return HttpResponse("你的文件 " + str(f.name) + " 已上传", content_type="text/plain")
     return HttpResponseNotFound("404 Error")
 
 
