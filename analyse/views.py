@@ -7,9 +7,11 @@ from django.http import HttpResponse, HttpResponseNotFound
 from django.shortcuts import render
 import analyse.analyse
 
+
 # Create your views here.
 def home(request):
     return render(request, "analyse.html")
+
 
 def model_path():
     p = 'upload/tem/'

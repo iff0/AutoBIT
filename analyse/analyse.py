@@ -7,6 +7,7 @@ def param_cnt(model, weight_name):
         if w.name == weight_name:
             return len(w.raw_data)
 
+
 def analyze(model):
     conv_cnt = 0
     fc_cnt = 0
@@ -52,6 +53,16 @@ def analyze(model):
     }
     return analyze_dict
 
+def get_basic_info(model):
+    din = [d.dim_value for d in model.graph.input[0].type.tensor_type.shape.dim]
+    #print(din)
+    dout = [d.dim_value for d in model.graph.output[0].type.tensor_type.shape.dim]
+    #print(din)
+    return {
+        'layer_num': len(model.graph.node),
+        'din': din,
+        'dout': dout
+    }
 def main():
     model_name = sys.argv[1]
     model_path = "../upload/tem/" + model_name

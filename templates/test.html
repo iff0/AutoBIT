@@ -78,6 +78,9 @@ $(function () {
     });
 });
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.6/ext-language_tools.js" type="text/javascript" charset="utf-8"></script>
+<script src="https://cdn.bootcss.com/showdown/1.9.1/showdown.js"></script>
 </head>
 
 <body>
@@ -171,5 +174,31 @@ $(function () {
         c.setOption(option);
 </script>
 <button>aa</button>
+<div id="editor" style="height: 400px;">function foo(items) {
+    var x = "All this is syntax highlighted";
+    return x;
+}</div>
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    document.getElementById('editor').style.fontSize='12px';
+    editor.getSession().setMode("ace/mode/javascript");
+</script>
+<div id="mmt"></div>
+<script>
+    $(function (){
+    var text = '```python \
+def main: \
+    print(a) \
+```';
+    
+    var converter = new showdown.Converter();
+    var html = converter.makeHtml(text);
+    
+    document.getElementById("mmt").innerHTML = html;
+});
+    
+    
+    </script>
 </body>
 </html>
