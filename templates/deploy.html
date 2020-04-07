@@ -7,7 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 		<link rel="shortcut icon" href="/static/img/favicon.ico" />
-		<title>Auto Bit</title>
+		<title>Auto BIT</title>
 		
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
 		
@@ -34,24 +34,19 @@
 				$.get(
 					'/deploy/lanuch_deploy/',
 					function(data) {
-						alert("DEBUG: lanuch_deploy request");
-						editor.setValue(editor.getValue() + 'bbb');
 						var cnt = 0;
-
 						setInterval(function() {
 							$.get(
-								'/deploy/test/',
+								'/deploy/print_log/',
 								function(data) {
 									if (data != '') {
 									editor.setValue(editor.getValue() + '\n' + data);
 									cnt++;
 									}
 								}
-							)
-
+							);
 						}
 						, 1000);
-				
 					}
 				);
 				});
@@ -123,7 +118,6 @@
 		</script>
 	</head>
 	<body>
-
 		<!-- BEGIN .app-wrap -->
 		<div class="app-wrap">
 			<!-- BEGIN .app-heading -->
@@ -156,7 +150,6 @@
 				<aside class="app-side" id="app-side_" style="position: fixed;margin-top: 61px;">
 					<!-- BEGIN .side-content -->
 					<div class="side-content ">
-						
 						<nav class="side-nav">
 							<!-- BEGIN: side-nav-content -->
 							<ul class="unifyMenu" id="unifyMenu"  style="font: bold;font-size: 3vh">
@@ -199,10 +192,10 @@
 							</ul>
 							<!-- END: side-nav-content -->
 						</nav>
+					</div>
 					<!-- END: .side-content -->
 				</aside>
 				<!-- END: .app-side -->
-
 				<!-- BEGIN .app-main -->
 				<div class="app-main">
 					<!-- BEGIN .main-heading -->
@@ -233,21 +226,18 @@
 					<div class="main-content" style="display: flex;flex-direction: column;">
 						<div style="display: flex;flex-direction: row;">
 							<div class="card" style="width: 47.5%;margin-right: 5%;flex-direction: column;min-height: 60vh">
-						
-								<div class="card-header"><h3 style="font-size: 4vh;font:bold;margin-bottom: 0">平台选择</h3></div>
-								
+							<div class="card-header"><h3 style="font-size: 4vh;font:bold;margin-bottom: 0">平台选择</h3></div>
 							<h3 style="margin-left: 3%;margin-top: 5%;color: #777777;font-family: Lato, sans-serif;opacity: 0.7;font-size: 3vh">
 								您的模型：<a href="https://github.com"><font style="font:oblique;color: rgb(0, 122, 225);text-decoration: underline" id = "basic_info_name"></font></a>
-										</h3>
-								<div class="card top-blue-bdr" style="width: 55%;margin-left: 10%;border-top-color: gray;margin-top: 1.3vh;">
-									<div class="card-body" style="padding-bottom: 0;">
-										<p class="card-text" style="margin-bottom: 0;">大小：<font id = "basic_info_size"></font>MB<br>总层数：<font id = "basic_info_layer"></font><br>输入：<font id = "basic_info_din"></font><br>输出：<font id = "basic_info_dout"></font><p>
-									</div>
+							</h3>
+							<div class="card top-blue-bdr" style="width: 55%;margin-left: 10%;border-top-color: gray;margin-top: 1.3vh;">
+								<div class="card-body" style="padding-bottom: 0;">
+									<p class="card-text" style="margin-bottom: 0;">大小：<font id = "basic_info_size"></font>MB<br>总层数：<font id = "basic_info_layer"></font><br>输入：<font id = "basic_info_din"></font><br>输出：<font id = "basic_info_dout"></font><p>
 								</div>
-								
+							</div>
 							<h3 style="margin-left: 3%;margin-top: 1%;color: #777777;font-family: Lato, sans-serif;opacity: 0.7;font-size: 3vh">
 											选择您的硬件平台:
-										</h3>
+							</h3>
 							<div style="flex-direction: column;flex-wrap: wrap;padding-left: 3%;margin-top: 2%;">
 								<div style="display: flex;flex-direction: row" id = "my_plats">
 									
@@ -275,141 +265,120 @@
 							<div class="card" style="width: 47.5%;">
 							<div class="card-header"><h3 style="font-size: 4vh;font:bold;margin-bottom: 0">推荐比特数</h3></div>
 								<div class="card-body" style="display: flex;flex-direction: column;align-content: flex-start">
-										<div id="barColors" class="chart-height" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);margin: auto"><svg height="210" version="1.1" width="407.888" xmlns="http://www.w3.org/2000/svg" style="overflow: hidden; position: relative; left: -0.8px;"><desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Created with Raphaël 2.1.2</desc><defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></defs><text x="20.515625" y="168.984375" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font: 12px sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal"><tspan dy="4.3984375" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">0</tspan></text><path fill="none" stroke="#e4e6f2" d="M33.015625,168.984375H382.888" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text x="20.515625" y="132.98828125" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font: 12px sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal"><tspan dy="4.40234375" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2</tspan></text><path fill="none" stroke="#e4e6f2" d="M33.015625,132.98828125H382.888" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text x="20.515625" y="96.9921875" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font: 12px sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal"><tspan dy="4.3984375" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">4</tspan></text><path fill="none" stroke="#e4e6f2" d="M33.015625,96.9921875H382.888" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text x="20.515625" y="60.99609375" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font: 12px sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal"><tspan dy="4.40234375" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">8</tspan></text><path fill="none" stroke="#e4e6f2" d="M33.015625,60.99609375H382.888" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text x="20.515625" y="25" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font: 12px sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal"><tspan dy="4.3984375" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">16</tspan></text><path fill="none" stroke="#e4e6f2" d="M33.015625,25H382.888" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text x="357.89711607142857" y="181.484375" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: 12px sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal" transform="matrix(1,0,0,1,0,8.0078)"><tspan dy="4.3984375" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">conv3</tspan></text><text x="257.93358035714283" y="181.484375" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: 12px sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal" transform="matrix(1,0,0,1,0,8.0078)"><tspan dy="4.3984375" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">conv2</tspan></text><text x="157.97004464285715" y="181.484375" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: 12px sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal" transform="matrix(1,0,0,1,0,8.0078)"><tspan dy="4.3984375" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">conv1</tspan></text><text x="58.00650892857143" y="181.484375" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: 12px sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal" transform="matrix(1,0,0,1,0,8.0078)"><tspan dy="4.3984375" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">conv0</tspan></text><rect x="39.26334598214286" y="59.99609375" width="37.48632589285714" height="108.98828125" r="0" rx="0" ry="0" fill="#007ae1" stroke="none" fill-opacity="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 1;"></rect><rect x="89.24511383928572" y="95.986328125" width="37.48632589285714" height="72.998046875" r="0" rx="0" ry="0" fill="#007ae1" stroke="none" fill-opacity="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 1;"></rect><rect x="139.22688169642856" y="23.98828125" width="37.48632589285714" height="144.99609375" r="0" rx="0" ry="0" fill="#007ae1" stroke="none" fill-opacity="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 1;"></rect><rect x="189.2086495535714" y="95.990234375" width="37.48632589285714" height="72.994140625" r="0" rx="0" ry="0" fill="#007ae1" stroke="none" fill-opacity="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 1;"></rect><rect x="239.19041741071428" y="95.98828125" width="37.48632589285714" height="72.99609375" r="0" rx="0" ry="0" fill="#007ae1" stroke="none" fill-opacity="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 1;"></rect><rect x="289.1721852678572" y="132.9921875" width="37.48632589285714" height="35.9921875" r="0" rx="0" ry="0" fill="#007ae1" stroke="none" fill-opacity="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 1;"></rect><rect x="339.153953125" y="59.998046875" width="37.48632589285714" height="108.986328125" r="0" rx="0" ry="0" fill="#007ae1" stroke="none" fill-opacity="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 1;"></rect></svg><div class="morris-hover morris-default-style" style="left: 318.678px; top: 76px; display: none;"><div class="morris-hover-row-label">Sun</div><div class="morris-hover-point" style="color: #007ae1">
+									<div id="barColors" class="chart-height" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);margin: auto"><svg height="210" version="1.1" width="407.888" xmlns="http://www.w3.org/2000/svg" style="overflow: hidden; position: relative; left: -0.8px;"><desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Created with Raphaël 2.1.2</desc><defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></defs><text x="20.515625" y="168.984375" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font: 12px sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal"><tspan dy="4.3984375" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">0</tspan></text><path fill="none" stroke="#e4e6f2" d="M33.015625,168.984375H382.888" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text x="20.515625" y="132.98828125" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font: 12px sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal"><tspan dy="4.40234375" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">2</tspan></text><path fill="none" stroke="#e4e6f2" d="M33.015625,132.98828125H382.888" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text x="20.515625" y="96.9921875" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font: 12px sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal"><tspan dy="4.3984375" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">4</tspan></text><path fill="none" stroke="#e4e6f2" d="M33.015625,96.9921875H382.888" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text x="20.515625" y="60.99609375" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font: 12px sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal"><tspan dy="4.40234375" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">8</tspan></text><path fill="none" stroke="#e4e6f2" d="M33.015625,60.99609375H382.888" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text x="20.515625" y="25" text-anchor="end" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font: 12px sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal"><tspan dy="4.3984375" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">16</tspan></text><path fill="none" stroke="#e4e6f2" d="M33.015625,25H382.888" stroke-width="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><text x="357.89711607142857" y="181.484375" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: 12px sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal" transform="matrix(1,0,0,1,0,8.0078)"><tspan dy="4.3984375" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">conv3</tspan></text><text x="257.93358035714283" y="181.484375" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: 12px sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal" transform="matrix(1,0,0,1,0,8.0078)"><tspan dy="4.3984375" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">conv2</tspan></text><text x="157.97004464285715" y="181.484375" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: 12px sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal" transform="matrix(1,0,0,1,0,8.0078)"><tspan dy="4.3984375" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">conv1</tspan></text><text x="58.00650892857143" y="181.484375" text-anchor="middle" font="10px &quot;Arial&quot;" stroke="none" fill="#888888" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: 12px sans-serif;" font-size="12px" font-family="sans-serif" font-weight="normal" transform="matrix(1,0,0,1,0,8.0078)"><tspan dy="4.3984375" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">conv0</tspan></text><rect x="39.26334598214286" y="59.99609375" width="37.48632589285714" height="108.98828125" r="0" rx="0" ry="0" fill="#007ae1" stroke="none" fill-opacity="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 1;"></rect><rect x="89.24511383928572" y="95.986328125" width="37.48632589285714" height="72.998046875" r="0" rx="0" ry="0" fill="#007ae1" stroke="none" fill-opacity="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 1;"></rect><rect x="139.22688169642856" y="23.98828125" width="37.48632589285714" height="144.99609375" r="0" rx="0" ry="0" fill="#007ae1" stroke="none" fill-opacity="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 1;"></rect><rect x="189.2086495535714" y="95.990234375" width="37.48632589285714" height="72.994140625" r="0" rx="0" ry="0" fill="#007ae1" stroke="none" fill-opacity="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 1;"></rect><rect x="239.19041741071428" y="95.98828125" width="37.48632589285714" height="72.99609375" r="0" rx="0" ry="0" fill="#007ae1" stroke="none" fill-opacity="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 1;"></rect><rect x="289.1721852678572" y="132.9921875" width="37.48632589285714" height="35.9921875" r="0" rx="0" ry="0" fill="#007ae1" stroke="none" fill-opacity="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 1;"></rect><rect x="339.153953125" y="59.998046875" width="37.48632589285714" height="108.986328125" r="0" rx="0" ry="0" fill="#007ae1" stroke="none" fill-opacity="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 1;"></rect></svg><div class="morris-hover morris-default-style" style="left: 318.678px; top: 76px; display: none;"><div class="morris-hover-row-label">Sun</div><div class="morris-hover-point" style="color: #007ae1">
   Sales:
   7
 </div></div></div>
-										<h3 style="margin-left: 2%;margin-top: 5%;color: #777777;font-family: Lato, sans-serif;opacity: 0.7;font-size: 3vh">
-											自定义：
-										</h3>
-									<div class="">
-										
-											<font style="font: bold;font-size: 2vh;margin-right: 2vh;color: #777777;margin-left: 2vh;">conv0</font>
-													<label class="custom-control custom-radio">
-														<input id="radio1" name="conv0" type="radio" class="custom-control-input" checked="">
-														<span class="custom-control-indicator"></span>
-														<span class="custom-control-description">1</span>
-													</label>
-													<label class="custom-control custom-radio">
-														<input id="radio1" name="conv0" type="radio" class="custom-control-input" checked="">
-														<span class="custom-control-indicator"></span>
-														<span class="custom-control-description">4</span>
-													</label>
-													<label class="custom-control custom-radio">
-														<input id="radio1" name="conv0" type="radio" class="custom-control-input"  checked="checked">
-														<span class="custom-control-indicator"></span>
-														<span class="custom-control-description">8</span>
-													</label>
-													<label class="custom-control custom-radio">
-														<input id="radio1" name="conv0" type="radio" class="custom-control-input" checked="">
-														<span class="custom-control-indicator"></span>
-														<span class="custom-control-description">16</span>
-													</label>
+									<h3 style="margin-left: 2%;margin-top: 5%;color: #777777;font-family: Lato, sans-serif;opacity: 0.7;font-size: 3vh">
+										自定义：
+									</h3>
+									<div>
+										<font style="font: bold;font-size: 2vh;margin-right: 2vh;color: #777777;margin-left: 2vh;">conv0</font>
+										<label class="custom-control custom-radio">
+											<input id="radio1" name="conv0" type="radio" class="custom-control-input" checked="">
+											<span class="custom-control-indicator"></span>
+											<span class="custom-control-description">1</span>
+										</label>
+										<label class="custom-control custom-radio">
+											<input id="radio1" name="conv0" type="radio" class="custom-control-input" checked="">
+											<span class="custom-control-indicator"></span>
+											<span class="custom-control-description">4</span>
+										</label>
+										<label class="custom-control custom-radio">
+											<input id="radio1" name="conv0" type="radio" class="custom-control-input"  checked="checked">
+											<span class="custom-control-indicator"></span>
+											<span class="custom-control-description">8</span>
+										</label>
+										<label class="custom-control custom-radio">
+											<input id="radio1" name="conv0" type="radio" class="custom-control-input" checked="">
+											<span class="custom-control-indicator"></span>
+											<span class="custom-control-description">16</span>
+										</label>
 									</div>
-									<div class="">
-										
-											<font style="font: bold;font-size: 2vh;margin-right: 2vh;color: #777777;margin-left: 2vh;">conv1</font>
-													<label class="custom-control custom-radio">
-														<input id="radio1" name="conv1" type="radio" class="custom-control-input" checked="">
-														<span class="custom-control-indicator"></span>
-														<span class="custom-control-description">1</span>
-													</label>
-													<label class="custom-control custom-radio">
-														<input id="radio1" name="conv1" type="radio" class="custom-control-input" checked="">
-														<span class="custom-control-indicator"></span>
-														<span class="custom-control-description">4</span>
-													</label>
-													<label class="custom-control custom-radio">
-														<input id="radio1" name="conv1" type="radio" class="custom-control-input" checked="">
-														<span class="custom-control-indicator"></span>
-														<span class="custom-control-description">8</span>
-													</label>
-													<label class="custom-control custom-radio">
-														<input id="radio1" name="conv1" type="radio" class="custom-control-input" checked="">
-														<span class="custom-control-indicator"></span>
-														<span class="custom-control-description">16</span>
-													</label>
+									<div>
+										<font style="font: bold;font-size: 2vh;margin-right: 2vh;color: #777777;margin-left: 2vh;">conv1</font>
+										<label class="custom-control custom-radio">
+											<input id="radio1" name="conv1" type="radio" class="custom-control-input" checked="">
+											<span class="custom-control-indicator"></span>
+											<span class="custom-control-description">1</span>
+										</label>
+										<label class="custom-control custom-radio">
+											<input id="radio1" name="conv1" type="radio" class="custom-control-input" checked="">
+											<span class="custom-control-indicator"></span>
+											<span class="custom-control-description">4</span>
+										</label>
+										<label class="custom-control custom-radio">
+											<input id="radio1" name="conv1" type="radio" class="custom-control-input" checked="">
+											<span class="custom-control-indicator"></span>
+											<span class="custom-control-description">8</span>
+										</label>
+										<label class="custom-control custom-radio">
+											<input id="radio1" name="conv1" type="radio" class="custom-control-input" checked="">
+											<span class="custom-control-indicator"></span>
+											<span class="custom-control-description">16</span>
+										</label>
 									</div>
-									
-									<div class="">
-										
-											<font style="font: bold;font-size: 2vh;margin-right: 2vh;margin-left: 2vh; color: #777777">conv2</font>
-													<label class="custom-control custom-radio">
-														<input id="radio1" name="conv2" type="radio" class="custom-control-input" checked="">
-														<span class="custom-control-indicator"></span>
-														<span class="custom-control-description">1</span>
-													</label>
-													<label class="custom-control custom-radio">
-														<input id="radio1" name="conv2" type="radio" class="custom-control-input" checked="">
-														<span class="custom-control-indicator"></span>
-														<span class="custom-control-description">4</span>
-													</label>
-													<label class="custom-control custom-radio">
-														<input id="radio1" name="conv2" type="radio" class="custom-control-input" checked="">
-														<span class="custom-control-indicator"></span>
-														<span class="custom-control-description">8</span>
-													</label>
-													<label class="custom-control custom-radio">
-														<input id="radio1" name="conv2" type="radio" class="custom-control-input" checked="">
-														<span class="custom-control-indicator"></span>
-														<span class="custom-control-description">16</span>
-													</label>
+									<div>
+										<font style="font: bold;font-size: 2vh;margin-right: 2vh;margin-left: 2vh; color: #777777">conv2</font>
+										<label class="custom-control custom-radio">
+											<input id="radio1" name="conv2" type="radio" class="custom-control-input" checked="">
+											<span class="custom-control-indicator"></span>
+											<span class="custom-control-description">1</span>
+										</label>
+										<label class="custom-control custom-radio">
+											<input id="radio1" name="conv2" type="radio" class="custom-control-input" checked="">
+											<span class="custom-control-indicator"></span>
+											<span class="custom-control-description">4</span>
+										</label>
+										<label class="custom-control custom-radio">
+											<input id="radio1" name="conv2" type="radio" class="custom-control-input" checked="">
+											<span class="custom-control-indicator"></span>
+											<span class="custom-control-description">8</span>
+										</label>
+										<label class="custom-control custom-radio">
+											<input id="radio1" name="conv2" type="radio" class="custom-control-input" checked="">
+											<span class="custom-control-indicator"></span>
+											<span class="custom-control-description">16</span>
+										</label>
 									</div>
-											</div>
+								</div>
 							</div>
 						</div>
-						
 						<div class="card" style="width: 100%;margin-top: 3vh;">
 							<div class="card-header"><h3 style="font-size: 4vh;font:bold;margin-bottom: 0">自动部署</h3></div>
 									<div class="card-body">
 										<button type="button" class="btn btn-primary btn-lg btn-block row_center" style="width: 35%;" id = "lanuch_deploy">点击以开始部署</button>
 										<div class = "row_center" id = 'deploy_progress' style="width: 60%;height: 70vh;"></div>
-										<div id="my_code" style="height: 400px; width: 80%;">function foo(items) {
-	var x = "All this is syntax highlighted";
-	return x;
-	a
-		}</div>
+										<div id="my_code" style="height: 400px; width: 80%;margin-left: auto;margin-right: auto;"></div>
 										<script>
 											$(function() {
 												ace.require("ace/ext/language_tools");
-
-						 editor = ace.edit("my_code");
+						 						editor = ace.edit("my_code");
 												editor.getSession().setUseWrapMode(true);//设置代码折叠
-
-editor.setTheme("ace/theme/monokai");//设置主题
-
-editor.getSession().setMode("ace/mode/javascript");//设置语言
-
-document.getElementById('my_code').style.fontSize='16px';//设置字体
-
-editor.resize();//编辑器自适应
-
-editor.setShowPrintMargin(false);//显示打印边线
-editor.setReadOnly(true);
-editor.getSession().selection.on('changeSelection', function(e) {
-	editor.clearSelection();
-	editor.scrollPageDown();
-});
-
-editor.setOptions({
-
-	enableBasicAutocompletion: true,
-
-	enableSnippets: true,
-
-enableLiveAutocompletion: true//启用自动补全
-})
+												editor.setTheme("ace/theme/monokai");//设置主题
+												editor.getSession().setMode("ace/mode/powershell");//设置语言
+												document.getElementById('my_code').style.fontSize='16px';//设置字体
+												editor.resize();//编辑器自适应
+												editor.setShowPrintMargin(false);//显示打印边线
+												editor.setReadOnly(true);
+												editor.getSession().selection.on('changeSelection', function(e) {
+													editor.clearSelection();
+													editor.scrollPageDown();
+												});
+												editor.setOptions({
+													enableBasicAutocompletion: true,
+													enableSnippets: true,
+													enableLiveAutocompletion: true//启用自动补全
+												})
 											});
 										</script>
-											<script src="https://cdn.bootcss.com/ace/1.4.9/ace.js"></script>
+										<script src="https://cdn.bootcss.com/ace/1.4.9/ace.js"></script>
 									</div>
-						
 						</div>
 					<div class="card">
 						<div class="card-header"><h3 style="font-size: 4vh;font:bold;margin-bottom: 0">部署完成</h3></div>
 						<div class="card-body">
 							<h4 class="card-title">点击下方按钮进行下载</h4>
-							
 							<a href="/deploy/get_target_file/" class="btn btn-primary" style="margin-left: 7%;">
 								<i class="icon-download2"></i>&nbsp &nbsp &nbsp文件</a>
 						</div>
@@ -421,7 +390,7 @@ enableLiveAutocompletion: true//启用自动补全
 				</div>
 			<!-- END: .app-container -->
 			</div>
-	</div>
+		</div>
 		<!-- END: .app-wrap -->
 
 		<!-- jQuery first, then Tether, then other JS. -->
@@ -434,7 +403,6 @@ enableLiveAutocompletion: true//启用自动补全
 		<!-- Slimscroll JS -->
 		<script src="/static/vendor/slimscroll/slimscroll.min.js"></script>
 		<script src="/static/vendor/slimscroll/custom-scrollbar.js"></script>
-		
 		
 		<!-- Common JS -->
 		<script src="/static/js/common.js"></script>

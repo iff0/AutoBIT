@@ -64,14 +64,6 @@ def model_path():
     # 找模型文件
     return path
 
-
-def CreateTask(request):
-    taskThread = TaskThread()
-    taskThread.start()
-    # testThread.join() # 如果加上就会等线程执行完才响应，在我们这个场景下不加
-    return HttpResponse(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-
-
 def renew_output(request):
     line = ''
     if output_list.empty():

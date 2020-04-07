@@ -2,13 +2,11 @@
 
 ### python库:
 
-`netron`
-
-`django`
+`netron`, `django`, `tvm`
 
 ### 现有目标
 + 重构`html`
-+ 加入`django`
++ ~~加入`django`~~
 
 ### 可视化方案
 + ~~`matplotlib` + `jquery`~~
@@ -63,6 +61,8 @@
         > 卷积层与全连接层层数占比
         
         > 卷积层与全连接层参数量占比
+
+    + `^analyse/run_time/.*`
         
         > 各层运行时间对比
 
@@ -87,3 +87,7 @@
 
 + deploy/: 把ace-editor改装成实时输出代码的UI
 + deploy/: 左上角的模型基本信息是真实的了
++ 修复侧边栏显示bug
+
+#### v0.4.5
++ 对接后端模型部署与日志输出

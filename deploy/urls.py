@@ -7,5 +7,5 @@ urlpatterns = [
     url('^get_target_file/', views.get_target_file),
     url('^get_basic_info/', views.get_basic_info),
     url('^lanuch_deploy/', views.lanuch_deploy),
-    url('^test/', views.renew_output),
+    url('^print_log/', views.renew_output),
 ]
