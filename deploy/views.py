@@ -86,6 +86,7 @@ def home(request):
 def set_platform(request):
     if request.method == 'POST':
         plat = request.POST.get('platform')
+        global target
         target = target_dic[plat]
         print("set platform to " + plat + ' based on ' + target)
         return HttpResponse(plat)
