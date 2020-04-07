@@ -27,7 +27,36 @@
 		<script src="/static/js/jquery-3.4.1.min.js"></script>
 		<script src="/static/js/echarts.min.js"></script>
 		<script src="/static/js/toastr.min.js"></script>
-		
+		<script>var editor</script>
+		<script>
+			$(function() {
+				$("#lanuch_deploy").click(function() {
+				$.get(
+					'/deploy/lanuch_deploy/',
+					function(data) {
+						alert("DEBUG: lanuch_deploy request");
+						editor.setValue(editor.getValue() + 'bbb');
+						var cnt = 0;
+
+						setInterval(function() {
+							$.get(
+								'/deploy/test/',
+								function(data) {
+									if (data != '') {
+									editor.setValue(editor.getValue() + '\n' + data);
+									cnt++;
+									}
+								}
+							)
+
+						}
+						, 1000);
+				
+					}
+				);
+				});
+			});
+		</script>
 		<script>
 			$(function() {
 				$.get(
@@ -124,8 +153,7 @@
 			<!-- BEGIN .app-container -->
 			<div class="app-container">
 				<!-- BEGIN .app-side -->
-				<div>
-				<aside class="app-side" id="app-side" style="position: fixed;margin-top: 61px;">
+				<aside class="app-side" id="app-side_" style="position: fixed;margin-top: 61px;">
 					<!-- BEGIN .side-content -->
 					<div class="side-content ">
 						
@@ -171,10 +199,8 @@
 							</ul>
 							<!-- END: side-nav-content -->
 						</nav>
-					</div>
 					<!-- END: .side-content -->
 				</aside>
-				</div>
 				<!-- END: .app-side -->
 
 				<!-- BEGIN .app-main -->
@@ -336,25 +362,23 @@
 						<div class="card" style="width: 100%;margin-top: 3vh;">
 							<div class="card-header"><h3 style="font-size: 4vh;font:bold;margin-bottom: 0">自动部署</h3></div>
 									<div class="card-body">
-										<button type="button" class="btn btn-primary btn-lg btn-block row_center" style="width: 35%;">点击以开始部署</button>
+										<button type="button" class="btn btn-primary btn-lg btn-block row_center" style="width: 35%;" id = "lanuch_deploy">点击以开始部署</button>
 										<div class = "row_center" id = 'deploy_progress' style="width: 60%;height: 70vh;"></div>
-<div id="my_code" style="height: 400px; width: 80%;">function foo(items) {
+										<div id="my_code" style="height: 400px; width: 80%;">function foo(items) {
 	var x = "All this is syntax highlighted";
 	return x;
 	a
-}</div>
-										<script src="https://cdn.bootcss.com/ace/1.4.9/ace.js"></script>
+		}</div>
 										<script>
-											$(function(){
-											ace.require("ace/ext/language_tools");
+											$(function() {
+												ace.require("ace/ext/language_tools");
 
-var editor = ace.edit("my_code");
-
-editor.getSession().setUseWrapMode(true);//设置代码折叠
+						 editor = ace.edit("my_code");
+												editor.getSession().setUseWrapMode(true);//设置代码折叠
 
 editor.setTheme("ace/theme/monokai");//设置主题
 
-//editor.getSession().setMode("ace/mode/javascript");//设置语言
+editor.getSession().setMode("ace/mode/javascript");//设置语言
 
 document.getElementById('my_code').style.fontSize='16px';//设置字体
 
@@ -373,24 +397,11 @@ editor.setOptions({
 
 	enableSnippets: true,
 
-   enableLiveAutocompletion: true//启用自动补全
+enableLiveAutocompletion: true//启用自动补全
 })
-editor.setValue(editor.getValue() + 'bbb');
-var cnt = 0;
-
-setInterval(function() {
-	$.get(
-		'/deploy/test/',
-		function(data) {
-			editor.setValue(editor.getValue() + '\n' + data);
-cnt++;
-		}
-	)
-
-}
-, 1000);
-});
+											});
 										</script>
+											<script src="https://cdn.bootcss.com/ace/1.4.9/ace.js"></script>
 									</div>
 						
 						</div>
@@ -404,12 +415,13 @@ cnt++;
 						</div>
 					</div>
 					<!-- END: .main-content -->
-				</div>
+					</div>
 						
 				<!-- END: .app-main -->
-			</div>
+				</div>
 			<!-- END: .app-container -->
-		</div>
+			</div>
+	</div>
 		<!-- END: .app-wrap -->
 
 		<!-- jQuery first, then Tether, then other JS. -->
