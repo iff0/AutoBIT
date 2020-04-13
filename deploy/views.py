@@ -73,24 +73,34 @@ def renew_output(request):
 
 
 def lanuch_deploy(request):
-    print("lanuching deploy..")
-    taskThread = TaskThread()
-    taskThread.start()
-    return HttpResponse()
-
+    if request.method == 'POST':
+        if_q = request.POST.get("if_quantization")
+        if_tune = request.POST.get("if_tune")
+        if_rpc = request.POST.get("if_rpc")
+        print(if_q)
+        print(if_tune)
+        print(if_rpc)
+        # 0 or 1 for false and true
+        plat = request.POST.get('platform')
+        print(plat)
+        print("lanuching deploy..")
+        taskThread = TaskThread()
+        taskThread.start()
+        return HttpResponse()
+    return HttpResponseNotFound()
 # Cr# eate your views here.
 def home(request):
     return render(request, 'deploy.html')
 
 
-def set_platform(request):
-    if request.method == 'POST':
-        plat = request.POST.get('platform')
-        global target
-        target = target_dic[plat]
-        print("set platform to " + plat + ' based on ' + target)
-        return HttpResponse(plat)
-    return HttpResponseNotFound()
+#def set_platform(request):
+ #   if request.method == 'POST':
+  #      plat = request.POST.get('platform')
+   #     global target
+    #    target = target_dic[plat]
+     #   print("set platform to " + plat + ' based on ' + target)
+      #  return HttpResponse(plat)
+    #return HttpResponseNotFound()
 
 
 def get_target_file(request):

@@ -27,6 +27,7 @@
 		<script src="/static/js/toastr.min.js"></script>
 		<script> 
 		$(function() {
+			//$("#upload_progress").hide();
 			var uploaded = 0;
 			toastr.options = {  
 					closeButton: true,  
@@ -48,7 +49,9 @@
 		<!--上传文件事件-->
 		<script>
 			$(function () {
+
 				$("#my_model").change(function () {
+					$("#upload_progress").show();
 					var files = $('#my_model').prop('files');
  					var data = new FormData();
 					data.append('my_model', files[0]);
@@ -59,14 +62,29 @@
 						cache: false,
 						processData: false,
 						contentType: false,
+						xhr: function () {//这里是计算上传进度
+							myXhr = $.ajaxSettings.xhr();
+							if (myXhr.upload) {
+								myXhr.upload.addEventListener('progress', function (e) {
+									if (e.lengthComputable) {
+										var percent = Math.floor(e.loaded / e.total * 100);
+										$('#upload_progress_bar').attr('value', percent);
+									}
+								}, false);
+							}
+							return myXhr;
+						},
 						success: function (data) {
 							uploaded = 1;
 							toastr.success(data);
+							$("#upload_progress").hide();
 						},
 						error: function (data) {
 							uploaded = 0;
+							$("#upload_progress").hide();
 						}
 					});
+					
 				})
 			});
 		</script>
@@ -211,12 +229,32 @@
 						<p style="font-family:  Lato, sans-serif;font-size: 16vh;font: bold;margin-top: 10%">AutoBIT</p>
 						<p style="opacity: 0.5;font-size: 4vh;color: #777;margin-left: 20%">—— 更懂你的神经网络低比特量化编译部署系统</p>
 						<p style="opacity: 0.8;font-size: 3.5vh;color: #777;">|请上传您的模型</p>
+						<style media="screen">
+							.pr {
+							width: 106px;
+							height: 6px;
+							background: #ededed;
+							}
+							progress::-webkit-progress-bar {
+							background: #ededed;
+							border-radius: 8px;
+							}
+							progress::-webkit-progress-value {
+							background: #06c5d8;
+							border-radius: 8px;
+							}
+							.pr.alert::-webkit-progress-value {
+							background: red;
+							}
+						</style>
+						<p id="upload_progress" style="display: none;">Loading..<progress class = "pr" id="upload_progress_bar" value="49" max="100"></p>
 						<div class="card" style="margin-bottom: 15%">
 							<label class="custom-file">
 								<input type="file" id="my_model" class="custom-file-input">
 								<span class="custom-file-control"></span>
 							</label>
 						</div>
+						
 						<header class="main-heading" style="width: 100%">
 						<div class="container-fluid">
 							<div class="row">

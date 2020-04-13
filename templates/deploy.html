@@ -31,8 +31,33 @@
 		<script>
 			$(function() {
 				$("#lanuch_deploy").click(function() {
-				$.get(
+					var x = $("#my_plats .my_sel");
+					var sd = {
+						platform: null,
+						if_quantization: 1,
+						if_tune: 1,
+						if_rpc: 1
+					};
+					
+					
+					if (x.length == 0) {
+						toastr.error("未选中平台");
+						return;
+					}
+					sd.platform = x[0].innerText;
+					if ($("#if_quantization").text() == "量化：关闭") {
+						sd.if_quantization = 0;
+					}
+					if ($("#if_tune").text() == "Tune：关闭") {
+						sd.if_tune = 0;
+					}
+					if ($("#if_rpc").text() == "rpc：关闭") {
+						sd.if_rpc = 0;
+					}
+					console.log(sd);
+				$.post(
 					'/deploy/lanuch_deploy/',
+					sd,
 					function(data) {
 						var cnt = 0;
 						setInterval(function() {
@@ -58,8 +83,17 @@
 					'/deploy/get_basic_info/',
 					function(data) {
 						console.log(data);
-						$("#basic_info_name").text(data.name);
-						$("#basic_info_size").text(data.size);
+						var str = data.name;
+						var ss;
+						if (new RegExp(/\\/).test(str)) {
+							ss = str.split("\\");
+						}
+						
+						else {
+							ss = str.split("/");
+						}
+						$("#basic_info_name").text(ss[ss.length - 1]);
+						$("#basic_info_size").text(data.size.toFixed(2));
 						$("#basic_info_layer").text(data.layer_num);
 						$("#basic_info_din").text(data.din);
 						$("#basic_info_dout").text(data.dout);
@@ -93,29 +127,6 @@
 				box-shadow: 10px 10px 5px #888888;
 			}
 		</style>
-		<script>
-			$(function() {
-				$("#submit_platform").click(function() {
-					var x = $("#my_plats .my_sel");
-					console.log(x);
-					
-					if (x.length == 0) {
-						toastr.error("未选中平台");
-					}
-					else {
-						$.post(
-							"/deploy/set_platform/",
-							{
-								'platform': x[0].innerText
-							},
-							function(data) {
-								toastr.success("平台设置为 " + data);
-							}
-						);
-					}
-				});
-			});
-		</script>
 	</head>
 	<body>
 		<!-- BEGIN .app-wrap -->
@@ -227,7 +238,7 @@
 						<div style="display: flex;flex-direction: row;">
 							<div class="card" style="width: 47.5%;margin-right: 5%;flex-direction: column;min-height: 60vh">
 							<div class="card-header"><h3 style="font-size: 4vh;font:bold;margin-bottom: 0">平台选择</h3></div>
-							<h3 style="margin-left: 3%;margin-top: 5%;color: #777777;font-family: Lato, sans-serif;opacity: 0.7;font-size: 3vh">
+							<h3 style="margin-left: 3%;margin-top: 5%;color: #777777;font-family: Lato, sans-serif;opacity: 0.7;font-size: 2vh">
 								您的模型：<a href="https://github.com"><font style="font:oblique;color: rgb(0, 122, 225);text-decoration: underline" id = "basic_info_name"></font></a>
 							</h3>
 							<div class="card top-blue-bdr" style="width: 55%;margin-left: 10%;border-top-color: gray;margin-top: 1.3vh;">
@@ -235,7 +246,7 @@
 									<p class="card-text" style="margin-bottom: 0;">大小：<font id = "basic_info_size"></font>MB<br>总层数：<font id = "basic_info_layer"></font><br>输入：<font id = "basic_info_din"></font><br>输出：<font id = "basic_info_dout"></font><p>
 								</div>
 							</div>
-							<h3 style="margin-left: 3%;margin-top: 1%;color: #777777;font-family: Lato, sans-serif;opacity: 0.7;font-size: 3vh">
+							<h3 style="margin-left: 3%;margin-top: 1%;color: #777777;font-family: Lato, sans-serif;opacity: 0.7;font-size: 2vh">
 											选择您的硬件平台:
 							</h3>
 							<div style="flex-direction: column;flex-wrap: wrap;padding-left: 3%;margin-top: 2%;">
@@ -253,13 +264,37 @@
 										$(".btn").click(
 											function() {
 												$(this).css("box-shadow", "none", 0).addClass("my_sel").siblings().removeClass("my_sel");
+												toastr.success("平台设置为 " + $(this).text());
 											}
 										);
 									</script>
 								</div>
-								<div style="display: flex;flex-direction: row;margin-top: 2.5%">
-									<button type="button" class="btn btn-primary btn-lg" id = "submit_platform">确定<i class="icon icon-tick"></i></button>
+								<div style="display: flex;flex-direction: row;margin-top: 0.7vh;" id = "my_options">
+									<button class="btn btn-primary btn-rounded" id = "if_quantization">量化：开启</button>
+									<button class="btn btn-primary btn-rounded" id = "if_tune">Tune：开启</button>
+									<button class="btn btn-primary btn-rounded" id = "if_rpc">rpc：开启</button>
 								</div>
+								<style>
+									#my_options > .btn {
+										margin-right: 4%;
+									}
+								</style>
+								<script>
+									$(function() {
+										$("#my_options>.btn").click(function(){
+											//alert("oh");
+											var str = $(this).text();
+											//console.log(str);
+									
+											if (new RegExp(/开启$/).test(str)) {
+												$(this).text(str.replace("开启", "关闭"));
+											}	
+											else {
+												$(this).text(str.replace("关闭", "开启"));
+											}
+										});
+									});
+								</script>
 							</div>
 							</div>	
 							<div class="card" style="width: 47.5%;">
@@ -348,8 +383,8 @@
 							<div class="card-header"><h3 style="font-size: 4vh;font:bold;margin-bottom: 0">自动部署</h3></div>
 									<div class="card-body">
 										<button type="button" class="btn btn-primary btn-lg btn-block row_center" style="width: 35%;" id = "lanuch_deploy">点击以开始部署</button>
-										<div class = "row_center" id = 'deploy_progress' style="width: 60%;height: 70vh;"></div>
-										<div id="my_code" style="height: 400px; width: 80%;margin-left: auto;margin-right: auto;"></div>
+										<div class = "row_center" id = 'deploy_progress' style="width: 60%;height: 70vh;display: none;"></div>
+										<div id="my_code" style="height: 400px; width: 80%;margin-left: auto;margin-right: auto;margin-top: 2vh;"></div>
 										<script>
 											$(function() {
 												ace.require("ace/ext/language_tools");
@@ -375,14 +410,13 @@
 										<script src="https://cdn.bootcss.com/ace/1.4.9/ace.js"></script>
 									</div>
 						</div>
-					<div class="card">
-						<div class="card-header"><h3 style="font-size: 4vh;font:bold;margin-bottom: 0">部署完成</h3></div>
-						<div class="card-body">
-							<h4 class="card-title">点击下方按钮进行下载</h4>
-							<a href="/deploy/get_target_file/" class="btn btn-primary" style="margin-left: 7%;">
+						<div class="card text-white bg-info" style="width: 40%;">
+									<div class="card-header">点击下方按钮进行下载</div>
+									<div class="card-body">
+										<a href="/deploy/get_target_file/" class="btn btn-light" style="margin-left: 7%;">
 								<i class="icon-download2"></i>&nbsp &nbsp &nbsp文件</a>
-						</div>
-					</div>
+									</div>
+								</div>
 					<!-- END: .main-content -->
 					</div>
 						
