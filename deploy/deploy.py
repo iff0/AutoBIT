@@ -207,14 +207,18 @@ def main():
     module_path = sys.argv[1]
     module = onnx.load(module_path)
     target = sys.argv[2]
+    quantize_flag = True if sys.argv[3] == 'quantize' else False
+    autotvm_flag = True if sys.argv[4] == 'tune' else False
     print("module in " + module_path)
     print("target: " + target)
+    print('quantize: ' + str(quantize_flag))
+    print('autotune: ' + str(autotvm_flag))
     tempdir = convert(module, target, quantize_flag, autotvm_flag)
     inference(tempdir, target)
     save_path = "download/tem/"
     save(tempdir, save_path)
     print("module saved in " + save_path)
-
+    print("$EOF$")
 
 if __name__ == '__main__':
     main()

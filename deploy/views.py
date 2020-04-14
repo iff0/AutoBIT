@@ -20,10 +20,13 @@ target_dic = {
     'Pi 4B': 'llvm'
 }
 
-def rundeploy(module_path, target):
+def rundeploy(module_path, target, quantize, tune, rpc):
     print("Deploy running...")
     pyFileName = 'deploy/deploy.py'
-    command = r'python -u %s %s %s' % (pyFileName, module_path, target)
+    quantize_flag = 'quantize' if quantize else 'noquantize'
+    tune_flag = 'tune' if tune else 'notune'
+    rpc_flag = 'rpc' if rpc else 'norpc'
+    command = r'python -u %s %s %s %s %s' % (pyFileName, module_path, target, quantize_flag, tune_flag)
     getOutPut = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, bufsize=1)
     while getOutPut.poll() is None:
         line = getOutPut.stdout.readline()
@@ -39,18 +42,21 @@ def rundeploy(module_path, target):
 
 # 执行具体任务的异步线程
 class TaskThread(threading.Thread):
+    def __init__(self, target='cuda',quantize=False, tune=False, rpc=False):
+        threading.Thread.__init__(self)
+        self.target = target
+        self.quantize = quantize
+        self.tune = tune
+        self.rpc = rpc
+
+
     def run(self):
         import time
 
         # from deploy.deploy import run_deploy
         modelPath = model_path()
         print(modelPath)
-        rundeploy(modelPath, target)
-        # print("Deploy running...")
-        # run_deploy(modelPath, target, False, False, True)
-        # for i in range(20):
-        #     time.sleep(1)
-        #     print(datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),"%s" % (self.getName(),))
+        rundeploy(modelPath, target, self.quantize, self.tune, self.rpc)
 
 
 def model_path():
@@ -76,15 +82,19 @@ def lanuch_deploy(request):
     if request.method == 'POST':
         if_q = request.POST.get("if_quantization")
         if_tune = request.POST.get("if_tune")
-        if_rpc = request.POST.get("if_rpc")
+        if_rpc: object = request.POST.get("if_rpc")
+        if_q = True if if_q == 1 else False
+        if_tune = True if if_tune == 1 else False
+        if_rpc = True if if_rpc == 1 else False
         print(if_q)
         print(if_tune)
         print(if_rpc)
+
         # 0 or 1 for false and true
         plat = request.POST.get('platform')
         print(plat)
         print("lanuching deploy..")
-        taskThread = TaskThread()
+        taskThread = TaskThread(if_q,if_tune,if_rpc)
         taskThread.start()
         return HttpResponse()
     return HttpResponseNotFound()
@@ -104,7 +114,7 @@ def home(request):
 
 
 def get_target_file(request):
-    f = os.path.join(newdj.settings.BASE_DIR, 'upload', 'tem')
+    f = os.path.join(newdj.settings.BASE_DIR, 'download', 'tem')
     ls = os.listdir(f)
     return FileResponse(open(os.path.join(f, ls[0]), 'rb'))
 
