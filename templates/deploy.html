@@ -55,23 +55,48 @@
 						sd.if_rpc = 0;
 					}
 					console.log(sd);
+					var title_change = setInterval(function() {
+						var s = document.getElementById('deploy_title').innerText;
+						console.log(s);
+						
+						if (s == '正在部署中 .') {
+							$("#deploy_title").text('正在部署中 . .');
+						}
+						
+						else if (s == '正在部署中 . .') {
+							$("#deploy_title").text('正在部署中 . . .');
+						}
+
+						else {
+							$("#deploy_title").text('正在部署中 .');
+						}
+					},
+					300);
 				$.post(
 					'/deploy/lanuch_deploy/',
 					sd,
 					function(data) {
 						var cnt = 0;
-						setInterval(function() {
+						var aquery = setInterval(function() {
 							$.get(
 								'/deploy/print_log/',
 								function(data) {
+									if (data == '$EOF$') {
+										clearInterval(title_change);
+										clearInterval(aquery);
+										$("#deploy_title").text("部署已完成");
+										$("#download_after").show();
+										window.location.replace("#download_after");
+										return;
+									}
 									if (data != '') {
-									editor.setValue(editor.getValue() + '\n' + data);
+									editor.setValue(editor.getValue() + data + '\n');
 									cnt++;
 									}
 								}
 							);
 						}
-						, 1000);
+						, 400);
 					}
 				);
 				});
@@ -380,7 +405,7 @@
 							</div>
 						</div>
 						<div class="card" style="width: 100%;margin-top: 3vh;">
-							<div class="card-header"><h3 style="font-size: 4vh;font:bold;margin-bottom: 0">自动部署</h3></div>
+							<div class="card-header"><h3 style="font-size: 4vh;font:bold;margin-bottom: 0" id = "deploy_title">自动部署</h3></div>
 									<div class="card-body">
 										<button type="button" class="btn btn-primary btn-lg btn-block row_center" style="width: 35%;" id = "lanuch_deploy">点击以开始部署</button>
 										<div class = "row_center" id = 'deploy_progress' style="width: 60%;height: 70vh;display: none;"></div>
@@ -410,13 +435,13 @@
 										<script src="https://cdn.bootcss.com/ace/1.4.9/ace.js"></script>
 									</div>
 						</div>
-						<div class="card text-white bg-info" style="width: 40%;">
-									<div class="card-header">点击下方按钮进行下载</div>
-									<div class="card-body">
-										<a href="/deploy/get_target_file/" class="btn btn-light" style="margin-left: 7%;">
+						<div class="card text-white bg-info" id = "download_after" style="width: 40%;display: none;">
+							<div class="card-header">点击下方按钮进行下载</div>
+							<div class="card-body">
+								<a href="/deploy/get_target_file/" class="btn btn-light" style="margin-left: 7%;">
 								<i class="icon-download2"></i>&nbsp &nbsp &nbsp文件</a>
-									</div>
-								</div>
+							</div>
+						</div>
 					<!-- END: .main-content -->
 					</div>
 						
