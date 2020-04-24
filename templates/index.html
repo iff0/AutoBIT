@@ -49,7 +49,9 @@
 		<!--上传文件事件-->
 		<script>
 			$(function () {
-
+				$("#model_upload_btn").click(function() {
+					$("#my_model").click();
+				});
 				$("#my_model").change(function () {
 					$("#upload_progress").show();
 					var files = $('#my_model').prop('files');
@@ -226,9 +228,8 @@
 					<!-- END: .main-heading -->
 					<!-- BEGIN .main-content -->
 					<div class="main-content" style="display:flex;flex-direction: column;align-items: center;justify-content: flex-start;font-family:  Lato, sans-serif">
-						<p style="font-family:  Lato, sans-serif;font-size: 16vh;font: bold;margin-top: 10%">AutoBIT</p>
-						<p style="opacity: 0.5;font-size: 4vh;color: #777;margin-left: 20%">—— 更懂你的神经网络低比特量化编译部署系统</p>
-						<p style="opacity: 0.8;font-size: 3.5vh;color: #777;">|请上传您的模型</p>
+						<img src="/static/img/autobit_title.png" style="zoom: 120%;margin-top: 0vh;">
+						<p style="opacity: 0.5;font-size: 4vh;color: #777;margin-left: 20%;margin-bottom: 10vh;">—— 面向多平台的一键式神经网络自动量化编译系统</p>
 						<style media="screen">
 							.pr {
 							width: 106px;
@@ -247,8 +248,14 @@
 							background: red;
 							}
 						</style>
-						<p id="upload_progress" style="display: none;">Loading..<progress class = "pr" id="upload_progress_bar" value="49" max="100"></p>
-						<div class="card" style="margin-bottom: 15%">
+						<p id="upload_progress" style="display: none;font: normal 14px 'Open Sans', sans-serif;">Loading..<progress class = "pr" id="upload_progress_bar" value="49" max="100"></p>
+						<div class="input-group form-group" style="width: 25%;margin-bottom: 20vh;">
+							<input type="text" class="form-control" placeholder="请上传你的模型" aria-label="Search for..." readonly='readonly'>
+							<span class="input-group-btn">
+								<button class="btn btn-primary" type="button" id="model_upload_btn">浏览&nbsp;&nbsp;<i class="icon-upload6"></i></button>
+							</span>
+						</div>
+						<div class="card" style="margin-bottom: 15%;display: none;">
 							<label class="custom-file">
 								<input type="file" id="my_model" class="custom-file-input">
 								<span class="custom-file-control"></span>
