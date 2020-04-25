@@ -6,7 +6,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-		<link rel="shortcut icon" href="/static/img/favicon.ico" />
+		
 		<title>Auto BIT</title>
 		
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
@@ -17,7 +17,10 @@
 		<link rel="stylesheet" href="/static/css/main.css" />
 
 		<link href="/static/css/toastr.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="/static/css/my_css.css">
 
+		
+		<link rel="icon" type="image/x-icon" href="/static/img/logo_icon.ico"/>
 		<!-- Other CSS includes plugins - Cleanedup unnecessary CSS -->
 		<!-- Chartist css -->
 		<link href="/static/vendor/chartist/css/chartist.min.css" rel="stylesheet" />
@@ -25,6 +28,8 @@
 		<script src="/static/js/jquery-3.4.1.min.js"></script>
 		<script src="/static/js/echarts.min.js"></script>
 		<script src="/static/js/toastr.min.js"></script>
+
+		
 		<script> 
 		$(function() {
 			//$("#upload_progress").hide();
@@ -53,10 +58,15 @@
 					$("#my_model").click();
 				});
 				$("#my_model").change(function () {
-					$("#upload_progress").show();
 					var files = $('#my_model').prop('files');
  					var data = new FormData();
-					data.append('my_model', files[0]);
+					var f = files[0];
+					if (!(new RegExp(/.onnx/).test(f.name))) {
+						toastr.warning("不支持的文件类型");
+						return;
+					}
+					$("#upload_progress").show();
+					data.append('my_model', f);
 					$.ajax({
 						url: '/guide/upload/',
 						type: 'POST',
@@ -111,7 +121,7 @@
 									ifa.style = "width:  100%;height: 100%;";
 									ifa.setAttribute('frameborder', '0', 0);
 								}
-								window.location.replace("#netron_nav");
+								$("html,body").animate({ scrollTop: $("#netron_nav").offset().top}, 500);
 						}
 						);
 					//}
@@ -148,13 +158,13 @@
 			<!-- BEGIN .app-container -->
 			<div class="app-container" >
 				<!-- BEGIN .app-side -->
-				<aside class="app-side" id="app-side" style="position: fixed;margin-top: 61px;">
+				<aside class="app-side no_scroll">
 					<!-- BEGIN .side-content -->
 					<div class="side-content ">
 						<!-- BEGIN .side-nav -->
 						<nav class="side-nav">
 							<!-- BEGIN: side-nav-content -->
-							<ul class="unifyMenu" id="unifyMenu"  style="font: bold;font-size: 3vh">
+							<ul class="unifyMenu side_bar_font" id="unifyMenu">
 								<li class="active selected">
 									<a href="#">
 										<span class="has-icon">
@@ -227,40 +237,18 @@
 					</header>
 					<!-- END: .main-heading -->
 					<!-- BEGIN .main-content -->
-					<div class="main-content" style="display:flex;flex-direction: column;align-items: center;justify-content: flex-start;font-family:  Lato, sans-serif">
-						<img src="/static/img/autobit_title.png" style="zoom: 120%;margin-top: 0vh;">
-						<p style="opacity: 0.5;font-size: 4vh;color: #777;margin-left: 20%;margin-bottom: 10vh;">—— 面向多平台的一键式神经网络自动量化编译系统</p>
-						<style media="screen">
-							.pr {
-							width: 106px;
-							height: 6px;
-							background: #ededed;
-							}
-							progress::-webkit-progress-bar {
-							background: #ededed;
-							border-radius: 8px;
-							}
-							progress::-webkit-progress-value {
-							background: #06c5d8;
-							border-radius: 8px;
-							}
-							.pr.alert::-webkit-progress-value {
-							background: red;
-							}
-						</style>
-						<p id="upload_progress" style="display: none;font: normal 14px 'Open Sans', sans-serif;">Loading..<progress class = "pr" id="upload_progress_bar" value="49" max="100"></p>
-						<div class="input-group form-group" style="width: 25%;margin-bottom: 20vh;">
+					<div class="main-content" id = "index_main">
+						<img src="/static/img/autobit_title.png" id="index_title_img">
+						<p id="index_subtitle">—— 面向多平台的一键式神经网络自动量化编译系统</p>
+						<p id="upload_progress">Loading..<progress class = "pr" id="upload_progress_bar" value="0" max="100"></p>
+						<div class="input-group form-group" id="upload_aera">
 							<input type="text" class="form-control" placeholder="请上传你的模型" aria-label="Search for..." readonly='readonly'>
 							<span class="input-group-btn">
 								<button class="btn btn-primary" type="button" id="model_upload_btn">浏览&nbsp;&nbsp;<i class="icon-upload6"></i></button>
 							</span>
 						</div>
-						<div class="card" style="margin-bottom: 15%;display: none;">
-							<label class="custom-file">
-								<input type="file" id="my_model" class="custom-file-input">
-								<span class="custom-file-control"></span>
-							</label>
-						</div>
+						
+						<input type="file" id="my_model" class="no_show">
 						
 						<header class="main-heading" style="width: 100%">
 						<div class="container-fluid">
@@ -282,7 +270,7 @@
 							</div>
 						</div>
 						</header>
-						<div class="card" style="width:  100%;height: 90vh;display: none;">
+						<div class="card" id="netron_aera">
 							<div class="card-body", style="height: 100%" id = 'netron_board'></div>
 						</div>
 					</div>

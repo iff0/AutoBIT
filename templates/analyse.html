@@ -6,7 +6,6 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-		<link rel="shortcut icon" href="/static/img/favicon.ico" />
 		<title>Auto BIT</title>
 		
 		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
@@ -17,7 +16,9 @@
 		<link rel="stylesheet" href="/static/css/main.css" />
 
 		<link href="/static/css/toastr.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="/static/css/my_css.css">
 
+		<link rel="icon" type="image/x-icon" href="/static/img/logo_icon.ico"/>
 		<!-- Other CSS includes plugins - Cleanedup unnecessary CSS -->
 		<!-- Chartist css -->
 		<link href="/static/vendor/chartist/css/chartist.min.css" rel="stylesheet" />
@@ -25,6 +26,28 @@
 		<script src="/static/js/jquery-3.4.1.min.js"></script>
 		<script src="/static/js/echarts.min.js"></script>
 		<script src="/static/js/toastr.min.js"></script>
+		<script> 
+			$(function() {
+				//$("#upload_progress").hide();
+				var uploaded = 0;
+				toastr.options = {  
+						closeButton: true,  
+						debug: true,  
+						progressBar: true,  
+						positionClass: "toast-bottom-center",  
+						onclick: null,  
+						showDuration: "3000",  
+						hideDuration: "1000",  
+						timeOut: "2000",  
+						extendedTimeOut: "1000",  
+						showEasing: "swing",  
+						hideEasing: "linear",  
+						showMethod: "fadeIn",  
+						hideMethod: "fadeOut"  
+				};
+			});
+			</script>
+
 		<!--静态各层参数量分析-->
 		<script>
 			// 基于准备好的dom，初始化echarts实例
@@ -34,193 +57,202 @@
 			var echartsPie = echarts.init(document.getElementById('static_img1'), 'walden');
 			echartsPie.showLoading();
 			var ee = echarts.init(document.getElementById('static_img2'), 'walden');
-				ee.showLoading();
-			$.post('/analyse/params/',
-			{},
-			function(data) {
-			myChart.hideLoading();
-			echartsPie.hideLoading();
-			ee.hideLoading();
-			// 指定图表的配置项和数据
-			var option = {
-				title: {
-					text: '各层参数量分析',
+			ee.showLoading();
+			$.ajax({
+					url: '/analyse/params/',
+					type: 'POST',
+					data: {},
+					success: function(data) {
+				myChart.hideLoading();
+				echartsPie.hideLoading();
+				ee.hideLoading();
+				// 指定图表的配置项和数据
+				var option = {
+					title: {
+						text: '各层参数量分析',
+						x:'center',
+						textStyle: {//主标题文本样式{"fontSize": 18,"fontWeight": "bolder","color": "#333"}
+							fontFamily: 'Open Sans, sans-serif',
+							fontSize: 24,
+							color: 'black',
+							fontStyle: 'normal',
+							fontWeight: 'normal',
+						}
+					},
+					brush: {
+						toolbox: ['rect', 'polygon', 'lineX', 'lineY', 'keep', 'clear'],
+							xAxisIndex: 0
+					},
+					toolbox: {
+					show : true,
+					feature : {
+						mark : {show: true},
+						dataView : {show: true, readOnly: false,
+						y:'50%'
+						},
+						magicType : {
+							show: true, 
+							type: ['pie', 'funnel'],
+							option: {
+								funnel: {
+									x: '25%',
+									width: '50%',
+									funnelAlign: 'left',
+									max: 1548
+								}
+							}
+						},
+						restore : {show: true},
+						saveAsImage : {show: true}
+						}
+					},
+					tooltip: {trigger: 'axis',
+			axisPointer: {
+				type: 'shadow'
+			}},
+					legend: {
+						
+						right: '5%',
+						top: '5%',
+						data:['参数量(Byte)'],
+						icon: 'circle'
+					},
+					xAxis: {
+						
+					},
+					yAxis: {data: data.getparm.category},
+					series: [{
+						name: '参数量(Byte)',
+						type: 'bar',
+						data: data.getparm.data
+					}]
+				};
+				myChart.setOption(option);
+				var c = [];
+				for (const j of data.s_layers_num) {
+					c.push(j.name);
+				}
+				option = {
+				title : {
+					text: '卷积层与全连接层层数占比',
 					x:'center',
 					textStyle: {//主标题文本样式{"fontSize": 18,"fontWeight": "bolder","color": "#333"}
-                		fontFamily: 'Open Sans, sans-serif',
-               		 	fontSize: 24,
-						color: 'black',
-                		fontStyle: 'normal',
-                		fontWeight: 'normal',
-           		 }
+		                		fontFamily: 'Open Sans, sans-serif',
+		               		 	fontSize: 18,
+							color: 'black',
+		                		fontStyle: 'normal',
+		                		fontWeight: 'normal'}
 				},
-				brush: {
-					toolbox: ['rect', 'polygon', 'lineX', 'lineY', 'keep', 'clear'],
-						xAxisIndex: 0
+				tooltip : {
+					trigger: 'item',
+					formatter: "{a} <br/>{b} : {c} 层"
 				},
-				toolbox: {
-				show : true,
-				feature : {
-					mark : {show: true},
-					dataView : {show: true, readOnly: false,
-					y:'50%'
-					},
-					magicType : {
-						show: true, 
-						type: ['pie', 'funnel'],
-						option: {
-							funnel: {
-								x: '25%',
-								width: '50%',
-								funnelAlign: 'left',
-								max: 1548
-							}
-						}
-					},
-					restore : {show: true},
-					saveAsImage : {show: true}
-					}
-				},
-				tooltip: {trigger: 'axis',
-		axisPointer: {
-			type: 'shadow'
-		}},
 				legend: {
-					
-					right: '5%',
-					top: '5%',
-					data:['参数量(Byte)'],
+					orient : 'vertical',
+					x : 'left',
+					data: c,
 					icon: 'circle'
 				},
-				xAxis: {
-					
+				
+				toolbox: {
+					show : true,
+					feature : {
+						mark : {show: true},
+						dataView : {show: true, readOnly: false},
+						magicType : {
+							show: true, 
+							type: ['pie', 'funnel'],
+							option: {
+								funnel: {
+									x: '25%',
+									width: '50%',
+									funnelAlign: 'left',
+									max: 1548
+								}
+							}
+						},
+						restore : {show: true},
+						saveAsImage : {show: true}
+						}
 				},
-				yAxis: {data: data.getparm.category},
-				series: [{
-					name: '参数量(Byte)',
-					type: 'bar',
-					data: data.getparm.data
-				}]
-			};
-			myChart.setOption(option);
-			
-			var c = [];
-			for (const j of data.s_layers_num) {
-				c.push(j.name);
-			}
-			option = {
-			title : {
-				text: '卷积层与全连接层层数占比',
-				x:'center',
-				textStyle: {//主标题文本样式{"fontSize": 18,"fontWeight": "bolder","color": "#333"}
-                		fontFamily: 'Open Sans, sans-serif',
-               		 	fontSize: 18,
+				calculable : true,
+				series : [
+					{
+						name:'层数',
+						type:'pie',
+						radius : '55%',//饼图的半径大小
+						center: ['50%', '60%'],//饼图的位置
+						data:data.s_layers_num
+					}]
+				};
+				echartsPie.setOption(option);
+				// 使用刚指定的配置项和数据显示图表。
+				c = [];
+				for (const j of data.s_layers_size) {
+					c.push(j.name);
+				}
+				option = {
+				title : {
+					text: '卷积层与全连接层参数量占比',
+					x:'center',
+					textStyle: {//主标题文本样式{"fontSize": 18,"fontWeight": "bolder","color": "#333"}
+						fontFamily: 'Open Sans, sans-serif',
+						fontSize: 18,
 						color: 'black',
-                		fontStyle: 'normal',
-                		fontWeight: 'normal'}
-			},
-			tooltip : {
-				trigger: 'item',
-				formatter: "{a} <br/>{b} : {c} 层"
-			},
-			legend: {
-				orient : 'vertical',
-				x : 'left',
-				data: c,
-				icon: 'circle'
-			},
-			
-			toolbox: {
-				show : true,
-				feature : {
-					mark : {show: true},
-					dataView : {show: true, readOnly: false},
-					magicType : {
-						show: true, 
-						type: ['pie', 'funnel'],
-						option: {
-							funnel: {
-								x: '25%',
-								width: '50%',
-								funnelAlign: 'left',
-								max: 1548
-							}
-						}
-					},
-					restore : {show: true},
-					saveAsImage : {show: true}
+						fontStyle: 'normal',
+						fontWeight: 'normal'
 					}
-			},
-			calculable : true,
-			series : [
-				{
-					name:'层数',
-					type:'pie',
-					radius : '55%',//饼图的半径大小
-					center: ['50%', '60%'],//饼图的位置
-					data:data.s_layers_num
-				}]
-			};
-			echartsPie.setOption(option);
-			// 使用刚指定的配置项和数据显示图表。
-			c = [];
-			for (const j of data.s_layers_size) {
-				c.push(j.name);
-			}
-			option = {
-			title : {
-				text: '卷积层与全连接层参数量占比',
-				x:'center',
-				textStyle: {//主标题文本样式{"fontSize": 18,"fontWeight": "bolder","color": "#333"}
-                		fontFamily: 'Open Sans, sans-serif',
-               		 	fontSize: 18,
-						color: 'black',
-                		fontStyle: 'normal',
-                		fontWeight: 'normal'}
-			},
-			tooltip : {
-				trigger: 'item',
-				formatter: "{a} <br/>{b} : {c} Byte"
-			},
-			legend: {
-				orient : 'vertical',
-				x : 'left',
-				data: c,
-				icon: 'circle'
-			},
-			toolbox: {
-				show : true,
-				feature : {
-					mark : {show: true},
-					dataView : {show: true, readOnly: false},
-					magicType : {
-						show: true, 
-						type: ['pie', 'funnel'],
-						option: {
-							funnel: {
-								x: '25%',
-								width: '50%',
-								funnelAlign: 'left',
-								max: 1548
+				},
+				tooltip : {
+					trigger: 'item',
+					formatter: "{a} <br/>{b} : {c} Byte"
+				},
+				legend: {
+					orient : 'vertical',
+					x : 'left',
+					data: c,
+					icon: 'circle'
+				},
+				toolbox: {
+					show : true,
+					feature : {
+						mark : {show: true},
+						dataView : {show: true, readOnly: false},
+						magicType : {
+							show: true, 
+							type: ['pie', 'funnel'],
+							option: {
+								funnel: {
+									x: '25%',
+									width: '50%',
+									funnelAlign: 'left',
+									max: 1548
+								}
 							}
+						},
+						restore : {show: true},
+						saveAsImage : {show: true}
 						}
-					},
-					restore : {show: true},
-					saveAsImage : {show: true}
-					}
-			},
-			calculable : true,
-			series : [
-				{
-					name:'参数量',
-					type:'pie',
-					radius : '55%',//饼图的半径大小
-					center: ['50%', '60%'],//饼图的位置
-					data:data.s_layers_size
-				}]
-			};
-			ee.setOption(option);
-			})
+				},
+				calculable : true,
+				series : [
+					{
+						name:'参数量',
+						type:'pie',
+						radius : '55%',//饼图的半径大小
+						center: ['50%', '60%'],//饼图的位置
+						data:data.s_layers_size
+					}]
+				};
+				ee.setOption(option);
+				},
+				error: function() {
+					toastr.error("未检测到模型");
+					setTimeout(function() {
+								window.location.replace("/");
+							},2000);
+				}
+				});
 			});
 		</script>
 		<!--卷积层与全连接层层数占比-->
@@ -228,136 +260,139 @@
 		<!--各层运行时间-->
 		<script>
 			// 基于准备好的dom，初始化echarts实例
+			
 			$(function(){
 			var running_img0 = echarts.init(document.getElementById('runnning_img0'), 'walden');
 			running_img0.showLoading();
-			$.post('/analyse/run_time/',
-			{},
-			function(data) {
-			running_img0.hideLoading();
-			// 指定图表的配置项和数据
-			var option = {
-				title: {
-					text: '各层运行时间',
-					x:'center',
-					textStyle: {//主标题文本样式{"fontSize": 18,"fontWeight": "bolder","color": "#333"}
-                		fontFamily: 'Open Sans, sans-serif',
-               		 	fontSize: 24,
-						color: 'black',
-                		fontStyle: 'normal',
-                		fontWeight: 'normal',
-           		 }
-				},
-				brush: {
-					toolbox: ['rect', 'polygon', 'lineX', 'lineY', 'keep', 'clear'],
-						xAxisIndex: 0
-				},
-				toolbox: {
-				show : true,
-				feature : {
-					mark : {show: true},
-					dataView : {show: true, readOnly: false,
-					y:'50%'
-					},
-					magicType : {
-						show: true, 
-						type: ['pie', 'funnel'],
-						option: {
-							funnel: {
-								x: '25%',
-								width: '50%',
-								funnelAlign: 'left',
-								max: 1548
-							}
-						}
-					},
-					restore : {show: true},
-					saveAsImage : {show: true}
-					}
-				},
-				tooltip: {
-					trigger: 'axis',
-					axisPointer: {
-						type: 'shadow'
-					},
-					formatter: '{a0} :{c0} ms<br>{a1} :{c1} ms<br>'
-				},
-				legend: {
-					right: '15%',
-					top: '5%',
-					data:['全精度', '量化'],
-					icon: 'circle'
-				},
-				xAxis: {
-					data: data.category
-				},
-				yAxis: {},
-				series: [{
-					name: '全精度',
-					type: 'line',
-					data: [
-        1352.92,
-        1224.11,
-        1212.45,
-        1209.53,
-        1071.62,
-        1037.06,
-        1001.64,
-        986.307,
-        927.934,
-        380.449,
-        380.324,
-        379.728,
-        331.193,
-        266.686,
-        243.343,
-        242.824,
-        236.776,
-        103.359,
-        71.806,
-        49.924,
-        29.252,
-        21.435,
-        13.176,
-        9.245
-      ]
-				},
-				{
-					name: '量化',
-					type: 'line',
-					data: [
-        180.928,
-        252.951,
-        252.633,
-        252.2,
-        161.054,
-        150.852,
-        150.738,
-        150.405,
-        115.165,
-        101.824,
-        101.819,
-        100.764,
-        90.901,
-        83.879,
-        83.704,
-        80.471,
-        78.267,
-        36.087,
-        37.692,
-        27.453,
-        29.474,
-        22.124,
-        12.122,
-        9.125
-      ]
-				}
+			$.ajax({
+					url: '/analyse/run_time/',
+					type: 'POST',
+					data: {},
+					success: function(data) {
+						running_img0.hideLoading();
+						// 指定图表的配置项和数据
+						var option = {
+							title: {
+								text: '各层运行时间',
+								x:'center',
+								textStyle: {//主标题文本样式{"fontSize": 18,"fontWeight": "bolder","color": "#333"}
+								fontFamily: 'Open Sans, sans-serif',
+								fontSize: 24,
+								color: 'black',
+								fontStyle: 'normal',
+								fontWeight: 'normal',
+								}
+							},
+							brush: {
+								toolbox: ['rect', 'polygon', 'lineX', 'lineY', 'keep', 'clear'],
+									xAxisIndex: 0
+							},
+							toolbox: {
+							show : true,
+							feature : {
+								mark : {show: true},
+								dataView : {show: true, readOnly: false,
+								y:'50%'
+								},
+								magicType : {
+									show: true, 
+									type: ['pie', 'funnel'],
+									option: {
+										funnel: {
+											x: '25%',
+											width: '50%',
+											funnelAlign: 'left',
+											max: 1548
+										}
+									}
+								},
+								restore : {show: true},
+								saveAsImage : {show: true}
+								}
+							},
+							tooltip: {
+								trigger: 'axis',
+								axisPointer: {
+									type: 'shadow'
+								},
+								formatter: '{a0} :{c0} ms<br>{a1} :{c1} ms<br>'
+							},
+							legend: {
+								right: '15%',
+								top: '5%',
+								data:['全精度', '量化'],
+								icon: 'circle'
+							},
+							xAxis: {
+								data: data.category
+							},
+							yAxis: {},
+							series: [{
+								name: '全精度',
+								type: 'line',
+								data: [
+					1352.92,
+					1224.11,
+					1212.45,
+					1209.53,
+					1071.62,
+					1037.06,
+					1001.64,
+					986.307,
+					927.934,
+					380.449,
+					380.324,
+					379.728,
+					331.193,
+					266.686,
+					243.343,
+					242.824,
+					236.776,
+					103.359,
+					71.806,
+					49.924,
+					29.252,
+					21.435,
+					13.176,
+					9.245
 				]
-			};
-			// 使用刚指定的配置项和数据显示图表。
-			running_img0.setOption(option);
-			$("#board_2").hide();
-			});
+							},
+							{
+								name: '量化',
+								type: 'line',
+								data: [
+					180.928,
+					252.951,
+					252.633,
+					252.2,
+					161.054,
+					150.852,
+					150.738,
+					150.405,
+					115.165,
+					101.824,
+					101.819,
+					100.764,
+					90.901,
+					83.879,
+					83.704,
+					80.471,
+					78.267,
+					36.087,
+					37.692,
+					27.453,
+					29.474,
+					22.124,
+					12.122,
+					9.125
+				]
+							}
+							]
+						};
+						// 使用刚指定的配置项和数据显示图表。
+						running_img0.setOption(option);
+						$("#analyse_board_2").hide();
+					}});
 			});
 		</script>
 	</head>
@@ -391,16 +426,14 @@
 			<!-- BEGIN .app-container -->
 			<div class="app-container">
 				<!-- BEGIN .app-side -->
-				<aside class="app-side" id="app-side" style="position: fixed;margin-top: 61px;">
+				<aside class="app-side no_scroll">
 					<!-- BEGIN .side-content -->
 					<div class="side-content ">
-						<!-- END .user-profile -->
 						<!-- BEGIN .side-nav -->
-						
 						<nav class="side-nav">
 							<!-- BEGIN: side-nav-content -->
-							<ul class="unifyMenu" id="unifyMenu"  style="font: bold;font-size: 3vh">
-								<li >
+							<ul class="unifyMenu side_bar_font">
+								<li>
 									<a href="/guide/">
 										<span class="has-icon">
 											<i class="icon-upload2"></i>
@@ -410,7 +443,7 @@
 								</li>
 								<li>
 								</li>
-								<li >
+								<li>
 									<a href="/deploy/">
 										<span class="has-icon">
 											<i class="icon-laptop_windows"></i>
@@ -419,7 +452,7 @@
 									</a>
 									
 								</li>
-								<li class="active selected">
+								<li  class="active selected">
 									<a href="/analyse/">
 										<span class="has-icon">
 											<i class="icon-chart-area-outline"></i>
@@ -427,7 +460,6 @@
 										<span class="nav-title">模型分析</span>
 									</a>
 								</li>
-									
 								<li>
 									<a href="https://gitee.com/BitTeam1024">
 										<span class="has-icon">
@@ -435,7 +467,8 @@
 										</span>
 										<span class="nav-title">Fork me</span>
 									</a>
-								</li>	
+								</li>
+										
 							</ul>
 							<!-- END: side-nav-content -->
 						</nav>
@@ -471,23 +504,8 @@
 					</header>
 					<!-- END: .main-heading -->
 					<!-- BEGIN .main-content -->
-					<style>
-						#analyse_tab > li > .nav-link{
-							border-bottom-color: rgb(255, 255, 255);
-						}
-						#analyse_tab > li > .nav-link.active{
-							background-color: rgba(0, 0, 0, 0.03);
-							border-bottom-color: rgb(255, 255, 255);
-						}
-						#analyse_tab > li > .nav-link > h3{
-							font-size: 2.8vh;font:bold;margin-bottom: 0
-						}
-						.analyse_board {
-							margin-top: 2vh;
-						}
-					</style>
 					<div class="main-content" style="padding-top: 2.2vh;">
-						<div class="card-header" style="background-color: rgb(255, 255, 255);padding: 0.2vh;">
+						<div class="card-header" id="analyse_toggle_title">
 							<ul class="nav nav-tabs nav-justified" role="tablist" id="analyse_tab">
 								<li class="nav-item">
 								  <a class="nav-link active" data-toggle="tab" role="tab" ><h3>静态分析</h3></a>
@@ -498,30 +516,27 @@
 							</ul>
 						</div>
 					<div>
-					<div class="analyse_board" style="display: flex;flex-direction: row;height: 86.5vh">
-						<div style="width: 62.5%;min-height: 100%;margin-left: 1%;">
-							<div class="card" id = "static_img0" style="min-height: 100%;max-height: 100%;"></div>
+					<div class="analyse_board" id="analyse_board_1">
+						<div>
+							<div class="card full_hei" id = "static_img0"></div>
 						</div>
-						<div style="width: 32.5%;min-height: 100%;
-						display: flex;flex-direction: column;
-						align-content: center;
-						margin-left: 3%;">
-							<div class="card" style="flex-basis: 50%;text-align: center;" id="static_img1">
+						<div>
+							<div class="card" id="static_img1">
 							</div>
-							<div class="card" style="flex-basis: 50%;text-align: center;margin-bottom: 0;" id="static_img2">
+							<div class="card" id="static_img2">
 							</div>
 						</div>
 					</div>
-					<div class="analyse_board" style="display: flex;flex-direction: row;height: 86.5vh;" id = "board_2">
-						<div style="width: 100%;min-height: 100%;margin-left: 1%;">
-							<div class="card" id = "runnning_img0" style="height:  100%;"></div>
+					<div class="analyse_board no_show" id = "analyse_board_2">
+						<div class="full_wid full_hei">
+							<div class="card full_hei" id = "runnning_img0"></div>
 							</div>
 						</div>
 					</div>
 					<script>
 						$(function () {
 							$("#analyse_tab > li").click(function () {
-								
+								$("html,body").animate({ scrollTop: $(this).offset().top - 61}, 500);
 								$(this).parent().parent().css("display", "block", 0);	
 								$(".analyse_board").eq($(this).index()).show().siblings().hide();
 							})
