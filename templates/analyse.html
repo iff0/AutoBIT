@@ -453,7 +453,7 @@
 									
 								</li>
 								<li  class="active selected">
-									<a href="/analyse/">
+									<a href="#anl_title">
 										<span class="has-icon">
 											<i class="icon-chart-area-outline"></i>
 										</span>
@@ -480,7 +480,7 @@
 				<!-- BEGIN .app-main -->
 				<div class="app-main">
 					<!-- BEGIN .main-heading -->
-					<header class="main-heading">
+					<header class="main-heading" id = "anl_title">
 						<div class="container-fluid">
 							<div class="row">
 								<div class="col-xl-8 col-lg-8 col-md-8 col-sm-8">
@@ -505,6 +505,84 @@
 					<!-- END: .main-heading -->
 					<!-- BEGIN .main-content -->
 					<div class="main-content" style="padding-top: 2.2vh;">
+						<div class = "row_flex anl_3 style="justify-content:space-between;" id="anl_speed">
+							<div class="info-stats4">
+								<div class="icon-type pull-left" style="border-color: orangered;">
+									<i class="icon-time-slot" style="color: orangered;"></i>
+								</div>
+								<div class="sale-num">
+									<h4 style="color: orangered;">1418.9<font class="def_font">ms</font></h4>
+									<p>全精度运行时间</p>
+								</div>
+							</div>
+							<div class="info-stats4">
+								<div class="icon-type pull-left" style="border-color: dodgerblue;">
+									<i class="icon-flash" style="color: dodgerblue;"></i>
+								</div>
+								<div class="sale-num">
+									<h4 style="color: dodgerblue;">253.6<font class="def_font">ms</font></h4>
+									<p>量化运行时间</p>
+								</div>
+							</div>
+							<div class="info-stats4">
+								<div class="icon-type pull-left" style="border-color: lightgreen;">
+									<i class="icon-rocket" style="color: lightgreen;"></i>
+								</div>
+								<div class="sale-num">
+									<h4 style="color: lightgreen;font-weight: bold;">559<font class="def_font">%</font></h4>
+									<p>加速比</p>
+								</div>
+							</div>
+
+						</div>
+						<div class = "row_flex anl_3 style="justify-content:space-between;" id="anl_speed">
+							<div class="info-stats4">
+								<div class="icon-type pull-left" style="border-color: orange;">
+									<i class="icon-file-text2" style="color: orange;"></i>
+								</div>
+								<div class="sale-num">
+									<h4 style="color: orange;">46.77<font class="def_font">Mb</font></h4>
+									<p>全精度模型大小</p>
+								</div>
+							</div>
+							<div class="info-stats4">
+								<div class="icon-type pull-left">
+									<i class="icon-leaf3"></i>
+								</div>
+								<div class="sale-num">
+									<h4 style="color: #007ae1;">4.20<font class="def_font">Mb</font></h4>
+									<p>量化模型大小</p>
+								</div>
+							</div>
+							<div class="info-stats4">
+								<div class="icon-type pull-left" style="border-color: limegreen;">
+									<i class="icon-gauge" style="color: limegreen;"></i>
+								</div>
+								<div class="sale-num">
+									<h4 style="color: limegreen;font-weight: bold;">1113<font class="def_font">%</font></h4>
+									<p>压缩比</p>
+								</div>
+							</div>
+
+						</div>
+						<style>
+							.def_font {
+								font-size: 2.8vh;
+								color: #aab3c3;
+								font-weight: normal;
+							}
+							.anl_3 > .info-stats4 {
+								margin: 1% 2.5% 1% 2.5%;
+								width: 30%;
+							}
+							.anl_3 > .info-stats4:first-child {
+								margin-left: 0;
+							}
+							.anl_3 > .info-stats4:last-child {
+								margin-right: 0;
+							}
+
+						</style>
 						<div class="card-header" id="analyse_toggle_title">
 							<ul class="nav nav-tabs nav-justified" role="tablist" id="analyse_tab">
 								<li class="nav-item">
